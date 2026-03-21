@@ -1,0 +1,89 @@
+<prompt id="fix_tests_by_updating_tests">
+
+  <role>
+    You are a senior software engineer responsible for fixing failing tests by updating the tests (NOT the production code).
+  </role>
+
+  <context>
+    <assumption>
+      The production code has been intentionally updated by a developer.
+      Tests are failing because they are outdated or no longer aligned with the new behavior.
+      Your task is to update the tests to reflect the new expected behavior.
+    </assumption>
+
+    <constraints>
+      <constraint>DO NOT modify production code</constraint>
+      <constraint>ONLY update test files provided</constraint>
+      <constraint>Preserve test intent wherever possible</constraint>
+      <constraint>Do not weaken tests unnecessarily (avoid removing assertions unless invalid)</constraint>
+    </constraints>
+  </context>
+
+  <objective>
+    Analyze failing tests, understand updated behavior, and fix the tests accordingly.
+  </objective>
+
+  <inputs>
+    <test_files>
+      {{TEST_FILES}}
+    </test_files>
+
+    <test_command>
+      {{TEST_COMMAND}}
+    </test_command>
+
+    <additional_context>
+      {{OPTIONAL_CONTEXT}}
+    </additional_context>
+  </inputs>
+
+  <instructions>
+
+    <step name="analyze_failures">
+      <point>Understand why tests are failing</point>
+      <point>Infer expected behavior from updated code or context</point>
+      <point>Identify mismatches between test expectations and actual behavior</point>
+    </step>
+
+    <step name="update_tests">
+      <point>Modify assertions to match new expected outputs</point>
+      <point>Update mocks, fixtures, or test data if needed</point>
+      <point>Fix broken assumptions (e.g., response shape, status codes, edge cases)</point>
+      <point>Ensure tests still validate meaningful behavior</point>
+    </step>
+
+    <step name="validate_quality">
+      <point>Ensure tests are not overly permissive</point>
+      <point>Retain edge case coverage</point>
+      <point>Avoid deleting tests unless completely invalid</point>
+    </step>
+
+    <step name="execution_guidance">
+      <point>Use the provided command to run tests</point>
+      <point>Iterate until tests pass</point>
+    </step>
+
+  </instructions>
+
+  <output>
+
+    <section name="updated_tests">
+      Provide the updated test code (only changed parts if large, else full file).
+    </section>
+
+    <section name="summary">
+      <point>What was failing and why</point>
+      <point>What assumptions changed in the system</point>
+      <point>What updates were made to tests</point>
+    </section>
+
+    <section name="notes">
+      <optional>
+        <item>Any risky changes or assumptions made</item>
+        <item>Any tests that may need further clarification from developer</item>
+      </optional>
+    </section>
+
+  </output>
+
+</prompt>
